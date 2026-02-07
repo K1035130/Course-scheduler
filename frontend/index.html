@@ -35,12 +35,30 @@
       <main class="layout">
         <section class="card form-card">
           <div class="section-title">
-            <h2>Add a Course</h2>
+            <h2>Request a Course</h2>
             <span class="tag">Step 01</span>
           </div>
           <form id="course-form">
             <label>
-              Course Title
+              Desired Course Type
+              <input
+                type="text"
+                id="course-type"
+                placeholder="e.g. LEC, LAB, TUT"
+                list="course-type-list"
+                autocomplete="off"
+                required
+              />
+              <datalist id="course-type-list">
+                <option value="LEC"></option>
+                <option value="LAB"></option>
+                <option value="TUT"></option>
+              </datalist>
+              <span class="hint" id="rules-hint">Type what you want; the backend will validate it.</span>
+            </label>
+
+            <label>
+              Course Code
               <input
                 type="text"
                 id="course-name"
@@ -51,42 +69,6 @@
               />
               <datalist id="course-suggestions"></datalist>
             </label>
-
-            <label>
-              Course Type
-              <select id="course-type" required></select>
-              <span class="hint" id="rules-hint">Start typing a course title to load allowed types.</span>
-            </label>
-
-            <label>
-              Section Time
-              <select id="course-section" required></select>
-              <span class="hint" id="section-hint">Choose a section time or enter a custom course.</span>
-            </label>
-
-            <label>
-              Meeting Day
-              <select id="course-day" required>
-                <option value="Mon">Monday</option>
-                <option value="Tue">Tuesday</option>
-                <option value="Wed">Wednesday</option>
-                <option value="Thu">Thursday</option>
-                <option value="Fri">Friday</option>
-                <option value="Sat">Saturday</option>
-                <option value="Sun">Sunday</option>
-              </select>
-            </label>
-
-            <div class="time-row">
-              <label>
-                Start Time
-                <input type="time" id="start-time" required />
-              </label>
-              <label>
-                End Time
-                <input type="time" id="end-time" required />
-              </label>
-            </div>
 
             <button type="submit">Add to Timetable</button>
             <p class="helper" id="form-message" aria-live="polite"></p>

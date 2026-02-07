@@ -4,10 +4,11 @@ A lightweight web application designed to assist UBC students with course select
 
 ## How to run
 
-Open `index.html` in a browser, or run a quick static server:
+Start the backend server:
 
 ```bash
-python -m http.server 8000
+cd backend
+npm start
 ```
 
-Then visit `http://localhost:8000`.
+Then open `http://localhost:3000` in your browser.
