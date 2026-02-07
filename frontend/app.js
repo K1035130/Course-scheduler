@@ -9,13 +9,13 @@ const emptyState = document.getElementById("empty-state");
 const summary = document.getElementById("summary");
 
 const dayLabels = {
-  Mon: "周一",
-  Tue: "周二",
-  Wed: "周三",
-  Thu: "周四",
-  Fri: "周五",
-  Sat: "周六",
-  Sun: "周日",
+  Mon: "Monday",
+  Tue: "Tuesday",
+  Wed: "Wednesday",
+  Thu: "Thursday",
+  Fri: "Friday",
+  Sat: "Saturday",
+  Sun: "Sunday",
 };
 
 const courses = [];
@@ -110,7 +110,7 @@ form.addEventListener("submit", (event) => {
   const endValue = endInput.value;
 
   if (!name || !startValue || !endValue) {
-    showMessage("请补全课程信息。");
+    showMessage("please fill in all fields.");
     return;
   }
 
@@ -118,12 +118,12 @@ form.addEventListener("submit", (event) => {
   const end = toMinutes(endValue);
 
   if (start >= end) {
-    showMessage("结束时间必须晚于开始时间。");
+    showMessage("The end time must be later than the start time.");
     return;
   }
 
   if (hasConflict(day, start, end)) {
-    showMessage("该时间段与已选课程冲突，请调整。");
+    showMessage("This time slot conflicts with your selected course. Please adjust accordingly.");
     return;
   }
 
@@ -136,7 +136,7 @@ form.addEventListener("submit", (event) => {
     endLabel: formatTime(endValue),
   });
 
-  showMessage("课程已加入课表。", false);
+  showMessage("The course has been added to your timetable.", false);
   form.reset();
   dayInput.value = day;
   render();
