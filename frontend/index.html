@@ -3,64 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UBC 课程时间规划器</title>
+    <title>UBC Course Timetable Planner</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="app">
       <header>
         <p class="eyebrow">UBC Course Scheduler</p>
-        <h1>快速拼出无冲突的课程时间表</h1>
+        <h1>Quickly assemble a conflict-free timetable</h1>
         <p class="subtitle">
-          输入课程名称、上课日与时间段，我们会即时检查冲突并生成可行课表。
+          Enter the course name, days of attendance, and time slots, and we shall immediately check for conflicts and generate a viable timetable.
         </p>
       </header>
 
       <main>
         <section class="card form-card">
-          <h2>新增课程</h2>
+          <h2>Added Courses</h2>
           <form id="course-form">
             <label>
-              课程名称
-              <input type="text" id="course-name" placeholder="例如 CPSC 110" required />
+              Course Title
+              <input type="text" id="course-name" placeholder="eg. CPSC 110" required />
             </label>
 
             <label>
               上课日
               <select id="course-day" required>
-                <option value="Mon">周一</option>
-                <option value="Tue">周二</option>
-                <option value="Wed">周三</option>
-                <option value="Thu">周四</option>
-                <option value="Fri">周五</option>
-                <option value="Sat">周六</option>
-                <option value="Sun">周日</option>
+                <option value="Mon">Monday</option>
+                <option value="Tue">Tuesday</option>
+                <option value="Wed">Wenesday</option>
+                <option value="Thu">Thursday</option>
+                <option value="Fri">Friday</option>
+                <option value="Sat">Saturday</option>
+                <option value="Sun">Sunday</option>
               </select>
             </label>
 
             <div class="time-row">
               <label>
-                开始时间
+                Start time
                 <input type="time" id="start-time" required />
               </label>
               <label>
-                结束时间
+                End time
                 <input type="time" id="end-time" required />
               </label>
             </div>
 
-            <button type="submit">加入课表</button>
+            <button type="submit">Add to timetable</button>
             <p class="helper" id="form-message" aria-live="polite"></p>
           </form>
         </section>
 
         <section class="card schedule-card">
           <div class="schedule-header">
-            <h2>当前课表</h2>
+            <h2>Current Timetable</h2>
             <div class="summary" id="summary"></div>
           </div>
           <div class="schedule-grid" id="schedule-grid"></div>
-          <div class="empty" id="empty-state">还没有课程，先从上方添加一门吧。</div>
+          <div class="empty" id="empty-state">There are no courses yet; please add one from the top.</div>
         </section>
       </main>
     </div>
