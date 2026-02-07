@@ -1,0 +1,39 @@
+[
+    {
+      "course": "CPSC 210",
+      "component": "LEC",
+      "option": "101",
+      "instructor": "Smith",
+      "meetings": [
+        {"day":"Mon","start":"10:00","end":"11:30"},
+        {"day":"Wed","start":"10:00","end":"11:30"}
+      ]
+    },
+    {
+      "course": "CPSC 210",
+      "component": "LEC",
+      "option": "102",
+      "instructor": "Lee",
+      "meetings": [
+        {"day":"Tue","start":"14:00","end":"15:30"},
+        {"day":"Thu","start":"14:00","end":"15:30"}
+      ]
+    },
+  
+    {
+      "course": "CPSC 210",
+      "component": "LAB",
+      "option": "L1A",
+      "meetings": [
+        {"day":"Fri","start":"12:00","end":"13:00"}
+      ]
+    },
+    {
+      "course": "CPSC 210",
+      "component": "LAB",
+      "option": "L1B",
+      "meetings": [
+        {"day":"Wed","start":"16:00","end":"17:00"}
+      ]
+    }
+  ]
