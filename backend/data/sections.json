@@ -137,11 +137,49 @@
       {
         "course": "MATH 100",
         "component": "DIS",
-        "option": "201",
-        "instructor": "Vsevolod Lynov",
+        "option": "001",
         "meetings": [
-          {"day":"Tue","start":"09:30","end":"11:00"},
-          {"day":"Thu","start":"09:30","end":"11:00"}
+          {"day":"Mon","start":"09:00","end":"10:00"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "DIS",
+        "option": "002",
+        "meetings": [
+          {"day":"Tue","start":"11:00","end":"12:00"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "DIS",
+        "option": "003",
+        "meetings": [
+          {"day":"Tue","start":"12:30","end":"13:30"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "DIS",
+        "option": "004",
+        "meetings": [
+          {"day":"Wed","start":"14:00","end":"15:00"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "DIS",
+        "option": "005",
+        "meetings": [
+          {"day":"Fri","start":"15:00","end":"16:00"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "DIS",
+        "option": "006",
+        "meetings": [
+          {"day":"Mon","start":"15:00","end":"16:00"}
         ]
       }
   ]
