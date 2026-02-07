@@ -1,39 +1,147 @@
 [
     {
-      "course": "CPSC 210",
+      "course": "CPSC 110",
       "component": "LEC",
-      "option": "101",
-      "instructor": "Smith",
+      "option": "201",
+      "instructor": "Vsevolod Lynov",
       "meetings": [
-        {"day":"Mon","start":"10:00","end":"11:30"},
-        {"day":"Wed","start":"10:00","end":"11:30"}
+        {"day":"Tue","start":"09:30","end":"11:00"},
+        {"day":"Thu","start":"09:30","end":"11:00"}
       ]
     },
     {
-      "course": "CPSC 210",
+      "course": "CPSC 110",
       "component": "LEC",
-      "option": "102",
-      "instructor": "Lee",
+      "option": "202",
+      "instructor": "Vsevolod Lynov",
       "meetings": [
-        {"day":"Tue","start":"14:00","end":"15:30"},
-        {"day":"Thu","start":"14:00","end":"15:30"}
+        {"day":"Tue","start":"15:30","end":"17:00"},
+        {"day":"Thu","start":"15:30","end":"17:00"}
       ]
     },
   
     {
-      "course": "CPSC 210",
+      "course": "CPSC 110",
       "component": "LAB",
-      "option": "L1A",
+      "option": "L20",
       "meetings": [
-        {"day":"Fri","start":"12:00","end":"13:00"}
+        {"day":"Mon","start":"09:00","end":"12:00"}
       ]
     },
     {
-      "course": "CPSC 210",
+      "course": "CPSC 110",
       "component": "LAB",
-      "option": "L1B",
+      "option": "L21",
       "meetings": [
-        {"day":"Wed","start":"16:00","end":"17:00"}
+        {"day":"Mon","start":"12:00","end":"15:00"}
       ]
-    }
+    },
+    {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L22",
+        "meetings": [
+          {"day":"Mon","start":"15:00","end":"18:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L23",
+        "meetings": [
+          {"day":"Tue","start":"12:00","end":"15:00"}
+        ]
+      },
+    
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L24",
+        "meetings": [
+          {"day":"Tue","start":"15:00","end":"18:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L25",
+        "meetings": [
+          {"day":"Tue","start":"18:00","end":"21:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L26",
+        "meetings": [
+          {"day":"Wed","start":"09:00","end":"12:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L29",
+        "meetings": [
+          {"day":"Thu","start":"12:00","end":"15:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L2A",
+        "meetings": [
+          {"day":"Thu","start":"15:00","end":"18:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L2C",
+        "meetings": [
+          {"day":"Fri","start":"09:00","end":"12:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L2D",
+        "meetings": [
+          {"day":"Fri","start":"12:00","end":"15:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L2E",
+        "meetings": [
+          {"day":"Fri","start":"15:00","end":"18:00"}
+        ]
+      },
+      {
+        "course": "CPSC 110",
+        "component": "LAB",
+        "option": "L2G",
+        "meetings": [
+          {"day":"Wed","start":"12:00","end":"15:00"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "LEC",
+        "option": "201",
+        "instructor": "Adam Martens",
+        "meetings": [
+          {"day":"Thu","start":"11:00","end":"13:00"}
+        ]
+      },
+      {
+        "course": "MATH 100",
+        "component": "DIS",
+        "option": "201",
+        "instructor": "Vsevolod Lynov",
+        "meetings": [
+          {"day":"Tue","start":"09:30","end":"11:00"},
+          {"day":"Thu","start":"09:30","end":"11:00"}
+        ]
+      },
   ]

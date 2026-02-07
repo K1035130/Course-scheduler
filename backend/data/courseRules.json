@@ -1,5 +1,6 @@
 {
-    "CPSC 210": ["LEC", "LAB"],
-    "MATH 221": ["LEC"],
+    "CPSC 110": ["LEC", "LAB"],
+    "MATH 100": ["LEC", "DIS"],
+    "MATH 101": ["LEC", "DIS"],
     "STAT 251": ["LEC", "TUT"]
   }
