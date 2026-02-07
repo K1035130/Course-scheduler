@@ -40,24 +40,6 @@
           </div>
           <form id="course-form">
             <label>
-              Desired Course Type
-              <input
-                type="text"
-                id="course-type"
-                placeholder="e.g. LEC, LAB, TUT"
-                list="course-type-list"
-                autocomplete="off"
-                required
-              />
-              <datalist id="course-type-list">
-                <option value="LEC"></option>
-                <option value="LAB"></option>
-                <option value="TUT"></option>
-              </datalist>
-              <span class="hint" id="rules-hint">Type what you want; the backend will validate it.</span>
-            </label>
-
-            <label>
               Course Code
               <input
                 type="text"
@@ -69,6 +51,7 @@
               />
               <datalist id="course-suggestions"></datalist>
             </label>
+            <span class="hint" id="rules-hint">Pick a course code; we will auto-build LEC/LAB/TUT from the rules.</span>
 
             <button type="submit">Add to Timetable</button>
             <p class="helper" id="form-message" aria-live="polite"></p>

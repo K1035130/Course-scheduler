@@ -99,21 +99,11 @@ const buildCourseOptions = (course) => {
 const scheduleCourses = (requests) => {
   const normalized = requests.map((request) => ({
     course: request.course,
-    desiredType: request.desiredType?.toUpperCase(),
   }));
 
   for (const request of normalized) {
     if (!courseRules[request.course]) {
       return { status: "error", message: `Unknown course: ${request.course}.` };
-    }
-    if (
-      request.desiredType &&
-      !courseRules[request.course].includes(request.desiredType)
-    ) {
-      return {
-        status: "error",
-        message: `Desired type ${request.desiredType} is not available for ${request.course}.`,
-      };
     }
   }
 

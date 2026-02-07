@@ -1,6 +1,5 @@
 const form = document.getElementById("course-form");
 const nameInput = document.getElementById("course-name");
-const typeInput = document.getElementById("course-type");
 const message = document.getElementById("form-message");
 const grid = document.getElementById("schedule-grid");
 const emptyState = document.getElementById("empty-state");
@@ -146,14 +145,13 @@ const requestSchedule = async (nextRequests) => {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const course = nameInput.value.trim();
-  const desiredType = typeInput.value.trim().toUpperCase();
 
-  if (!course || !desiredType) {
-    showMessage("Please fill in both fields.");
+  if (!course) {
+    showMessage("Please select a course code.");
     return;
   }
 
-  const nextRequests = [...requests, { course, desiredType }];
+  const nextRequests = [...requests, { course }];
 
   try {
     const result = await requestSchedule(nextRequests);
@@ -175,6 +173,7 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-rulesHint.textContent = "Enter a type like LEC or LAB before selecting a course.";
+rulesHint.textContent =
+  "Pick a course code and we will auto-schedule the required sections.";
 loadCourseSuggestions();
 render();
