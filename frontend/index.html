@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,29 +8,54 @@
   </head>
   <body>
     <div class="app">
-      <header>
-        <p class="eyebrow">UBC Course Scheduler</p>
-        <h1>Quickly assemble a conflict-free timetable</h1>
-        <p class="subtitle">
-          Enter the course name, days of attendance, and time slots, and we shall immediately check for conflicts and generate a viable timetable.
-        </p>
+      <header class="hero">
+        <div>
+          <p class="eyebrow">UBC Course Scheduler</p>
+          <h1>Build a clean, conflict-free timetable</h1>
+          <p class="subtitle">
+            Enter a course, pick its allowed type, and choose the day and time. We will instantly check for conflicts and keep a tidy weekly view.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-title">Weekly Snapshot</p>
+          <div class="hero-metrics">
+            <div>
+              <span class="metric-label">Courses</span>
+              <span class="metric-value" id="metric-count">0</span>
+            </div>
+            <div>
+              <span class="metric-label">Total Hours</span>
+              <span class="metric-value" id="metric-hours">0</span>
+            </div>
+          </div>
+          <p class="hero-note" id="rule-status">Course types are limited by the rules database.</p>
+        </div>
       </header>
 
-      <main>
+      <main class="layout">
         <section class="card form-card">
-          <h2>Added Courses</h2>
+          <div class="section-title">
+            <h2>Add a Course</h2>
+            <span class="tag">Step 01</span>
+          </div>
           <form id="course-form">
             <label>
               Course Title
-              <input type="text" id="course-name" placeholder="eg. CPSC 110" required />
+              <input type="text" id="course-name" placeholder="e.g. CPSC 210" required />
             </label>
 
             <label>
-              上课日
+              Course Type
+              <select id="course-type" required></select>
+              <span class="hint" id="rules-hint">Start typing a course title to load allowed types.</span>
+            </label>
+
+            <label>
+              Meeting Day
               <select id="course-day" required>
                 <option value="Mon">Monday</option>
                 <option value="Tue">Tuesday</option>
-                <option value="Wed">Wenesday</option>
+                <option value="Wed">Wednesday</option>
                 <option value="Thu">Thursday</option>
                 <option value="Fri">Friday</option>
                 <option value="Sat">Saturday</option>
@@ -40,27 +65,30 @@
 
             <div class="time-row">
               <label>
-                Start time
+                Start Time
                 <input type="time" id="start-time" required />
               </label>
               <label>
-                End time
+                End Time
                 <input type="time" id="end-time" required />
               </label>
             </div>
 
-            <button type="submit">Add to timetable</button>
+            <button type="submit">Add to Timetable</button>
             <p class="helper" id="form-message" aria-live="polite"></p>
           </form>
         </section>
 
         <section class="card schedule-card">
           <div class="schedule-header">
-            <h2>Current Timetable</h2>
+            <div>
+              <h2>Weekly Timetable</h2>
+              <p class="subtitle">Grouped by day for quick scanning.</p>
+            </div>
             <div class="summary" id="summary"></div>
           </div>
           <div class="schedule-grid" id="schedule-grid"></div>
-          <div class="empty" id="empty-state">There are no courses yet; please add one from the top.</div>
+          <div class="empty" id="empty-state">No courses yet. Add one on the left.</div>
         </section>
       </main>
     </div>
