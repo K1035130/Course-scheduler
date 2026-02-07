@@ -1,0 +1,185 @@
+:root {
+  color-scheme: light;
+  font-family: "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif;
+  background-color: #f4f6fb;
+  color: #16213e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.app {
+  width: min(1100px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  color: #5a6abf;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+}
+
+.subtitle {
+  color: #42526b;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 24px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 24px 48px rgba(27, 40, 112, 0.08);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #28324f;
+}
+
+input,
+select {
+  border-radius: 12px;
+  border: 1px solid #d8def0;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+}
+
+.time-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  background: linear-gradient(135deg, #3b5bdb, #5c7cfa);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(59, 91, 219, 0.25);
+}
+
+.helper {
+  min-height: 20px;
+  color: #d9480f;
+  font-size: 0.9rem;
+}
+
+.schedule-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.summary {
+  font-size: 0.9rem;
+  color: #5f6c8f;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.day-column {
+  background: #f8f9ff;
+  border-radius: 16px;
+  padding: 14px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.day-title {
+  font-weight: 700;
+  color: #2c3e70;
+}
+
+.course-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid #e1e5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.course-name {
+  font-weight: 600;
+  color: #1f2d4d;
+}
+
+.course-time {
+  font-size: 0.85rem;
+  color: #607097;
+}
+
+.empty {
+  color: #97a0bf;
+  text-align: center;
+  padding: 24px 12px 4px;
+}
+
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
