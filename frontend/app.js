@@ -94,9 +94,9 @@ const render = () => {
     0
   );
   summary.textContent = courses.length
-    ? `已排 ${courses.length} 门课 · 共 ${Math.round(
+    ? ` ${courses.length} classes has added ·  ${Math.round(
         totalMinutes / 60
-      )} 小时`
+      )} hours per week`
     : "";
 
   emptyState.style.display = courses.length ? "none" : "block";
