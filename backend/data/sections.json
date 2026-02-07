@@ -181,5 +181,486 @@
         "meetings": [
           {"day":"Mon","start":"15:00","end":"16:00"}
         ]
-      }
-  ]
+      },
+      {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2A1",
+          "meetings": [
+            {"day":"Tue","start":"08:00","end":"10:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2A2",
+          "meetings": [
+            {"day":"Tue","start":"10:00","end":"12:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2A3",
+          "meetings": [
+            {"day":"Tue","start":"12:00","end":"14:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2A4",
+          "meetings": [
+            {"day":"Tue","start":"14:00","end":"16:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2B1",
+          "meetings": [
+            {"day":"Wed","start":"08:00","end":"10:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2B2",
+          "meetings": [
+            {"day":"Wed","start":"12:00","end":"14:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2B3",
+          "meetings": [
+            {"day":"Wed","start":"14:00","end":"16:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2C1",
+          "meetings": [
+            {"day":"Thu","start":"10:00","end":"12:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2C2",
+          "meetings": [
+            {"day":"Thu","start":"12:00","end":"14:00"}
+          ]
+        },
+        {
+          "course": "MATH 101",
+          "component": "LEC",
+          "option": "2C3",
+          "meetings": [
+            {"day":"Thu","start":"14:00","end":"16:00"}
+          ]
+        },
+        { "course":"MATH 101","component":"DIS","option":"A11","meetings":[{"day":"Mon","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A12","meetings":[{"day":"Mon","start":"13:00","end":"14:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A13","meetings":[{"day":"Wed","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A14","meetings":[{"day":"Wed","start":"13:00","end":"14:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A15","meetings":[{"day":"Thu","start":"08:00","end":"09:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A16","meetings":[{"day":"Thu","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A17","meetings":[{"day":"Fri","start":"09:00","end":"10:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"A21","meetings":[{"day":"Mon","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A22","meetings":[{"day":"Mon","start":"11:00","end":"12:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A23","meetings":[{"day":"Wed","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A24","meetings":[{"day":"Wed","start":"15:00","end":"16:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A25","meetings":[{"day":"Thu","start":"11:00","end":"12:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A26","meetings":[{"day":"Thu","start":"14:00","end":"15:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A27","meetings":[{"day":"Fri","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A28","meetings":[{"day":"Fri","start":"14:00","end":"15:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"A31","meetings":[{"day":"Mon","start":"12:00","end":"13:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A32","meetings":[{"day":"Mon","start":"15:00","end":"16:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A33","meetings":[{"day":"Mon","start":"16:00","end":"17:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A34","meetings":[{"day":"Wed","start":"08:00","end":"09:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A35","meetings":[{"day":"Wed","start":"15:00","end":"16:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A36","meetings":[{"day":"Thu","start":"09:30","end":"10:30"}] },
+        { "course":"MATH 101","component":"DIS","option":"A37","meetings":[{"day":"Fri","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A38","meetings":[{"day":"Thu","start":"13:00","end":"14:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"A41","meetings":[{"day":"Mon","start":"12:00","end":"13:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A42","meetings":[{"day":"Wed","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A43","meetings":[{"day":"Wed","start":"16:00","end":"17:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A44","meetings":[{"day":"Thu","start":"11:00","end":"12:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"A46","meetings":[{"day":"Fri","start":"15:00","end":"16:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"B11","meetings":[{"day":"Mon","start":"08:00","end":"09:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B12","meetings":[{"day":"Tue","start":"08:00","end":"09:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B14","meetings":[{"day":"Tue","start":"13:00","end":"14:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B15","meetings":[{"day":"Thu","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B16","meetings":[{"day":"Thu","start":"14:00","end":"15:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B17","meetings":[{"day":"Fri","start":"09:00","end":"10:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"B21","meetings":[{"day":"Mon","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B22","meetings":[{"day":"Mon","start":"13:00","end":"14:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B23","meetings":[{"day":"Tue","start":"14:00","end":"15:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B24","meetings":[{"day":"Thu","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B25","meetings":[{"day":"Thu","start":"14:00","end":"15:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B26","meetings":[{"day":"Fri","start":"08:00","end":"09:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B27","meetings":[{"day":"Fri","start":"12:00","end":"13:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B28","meetings":[{"day":"Fri","start":"15:00","end":"16:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"B31","meetings":[{"day":"Tue","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B32","meetings":[{"day":"Mon","start":"14:00","end":"15:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B33","meetings":[{"day":"Mon","start":"15:00","end":"16:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B34","meetings":[{"day":"Fri","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B35","meetings":[{"day":"Fri","start":"15:00","end":"16:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"B36","meetings":[{"day":"Fri","start":"12:00","end":"13:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"C11","meetings":[{"day":"Mon","start":"10:00","end":"11:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C13","meetings":[{"day":"Tue","start":"09:00","end":"10:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C14","meetings":[{"day":"Tue","start":"11:00","end":"12:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C15","meetings":[{"day":"Tue","start":"12:00","end":"13:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C16","meetings":[{"day":"Tue","start":"13:00","end":"14:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C17","meetings":[{"day":"Tue","start":"16:00","end":"17:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"C21","meetings":[{"day":"Mon","start":"12:00","end":"13:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C22","meetings":[{"day":"Mon","start":"15:00","end":"16:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C24","meetings":[{"day":"Tue","start":"13:00","end":"14:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C26","meetings":[{"day":"Wed","start":"12:00","end":"13:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C27","meetings":[{"day":"Wed","start":"13:00","end":"14:00"}] },
+          
+        { "course":"MATH 101","component":"DIS","option":"C32","meetings":[{"day":"Mon","start":"14:00","end":"15:00"}] },
+        { "course":"MATH 101","component":"DIS","option":"C33","meetings":[{"day":"Wed","start":"10:00","end":"11:00"}] },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "600",
+              "meetings": [
+                { "day": "Mon", "start": "08:00", "end": "09:30" },
+                { "day": "Wed", "start": "08:00", "end": "09:30" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "605",
+              "meetings": [
+                { "day": "Mon", "start": "09:30", "end": "11:00" },
+                { "day": "Wed", "start": "09:30", "end": "11:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "606",
+              "meetings": [
+                { "day": "Mon", "start": "11:00", "end": "12:30" },
+                { "day": "Wed", "start": "11:00", "end": "12:30" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "607",
+              "meetings": [
+                { "day": "Mon", "start": "12:30", "end": "14:00" },
+                { "day": "Wed", "start": "12:30", "end": "14:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "608",
+              "meetings": [
+                { "day": "Mon", "start": "14:00", "end": "15:30" },
+                { "day": "Wed", "start": "14:00", "end": "15:30" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "609",
+              "meetings": [
+                { "day": "Mon", "start": "16:00", "end": "17:30" },
+                { "day": "Wed", "start": "16:00", "end": "17:30" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "610",
+              "meetings": [
+                { "day": "Mon", "start": "08:00", "end": "09:00" },
+                { "day": "Wed", "start": "08:00", "end": "09:00" },
+                { "day": "Fri", "start": "08:00", "end": "09:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "611",
+              "meetings": [
+                { "day": "Mon", "start": "09:00", "end": "10:00" },
+                { "day": "Wed", "start": "09:00", "end": "10:00" },
+                { "day": "Fri", "start": "09:00", "end": "10:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "612",
+              "meetings": [
+                { "day": "Mon", "start": "09:00", "end": "10:00" },
+                { "day": "Wed", "start": "09:00", "end": "10:00" },
+                { "day": "Fri", "start": "09:00", "end": "10:00" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "621",
+              "meetings": [
+                { "day": "Mon", "start": "10:00", "end": "11:00" },
+                { "day": "Wed", "start": "10:00", "end": "11:00" },
+                { "day": "Fri", "start": "10:00", "end": "11:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "622",
+              "meetings": [
+                { "day": "Mon", "start": "10:00", "end": "11:00" },
+                { "day": "Wed", "start": "10:00", "end": "11:00" },
+                { "day": "Fri", "start": "10:00", "end": "11:00" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "631",
+              "meetings": [
+                { "day": "Mon", "start": "11:00", "end": "12:00" },
+                { "day": "Wed", "start": "11:00", "end": "12:00" },
+                { "day": "Fri", "start": "11:00", "end": "12:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "632",
+              "meetings": [
+                { "day": "Mon", "start": "11:00", "end": "12:00" },
+                { "day": "Wed", "start": "11:00", "end": "12:00" },
+                { "day": "Fri", "start": "11:00", "end": "12:00" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "641",
+              "meetings": [
+                { "day": "Mon", "start": "12:00", "end": "13:00" },
+                { "day": "Wed", "start": "12:00", "end": "13:00" },
+                { "day": "Fri", "start": "12:00", "end": "13:00" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "642",
+              "meetings": [
+                { "day": "Mon", "start": "12:00", "end": "13:00" },
+                { "day": "Wed", "start": "12:00", "end": "13:00" },
+                { "day": "Fri", "start": "12:00", "end": "13:00" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "681",
+              "meetings": [
+                { "day": "Mon", "start": "16:00", "end": "17:00" },
+                { "day": "Wed", "start": "16:00", "end": "17:00" },
+                { "day": "Fri", "start": "16:00", "end": "17:00" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "801",
+              "meetings": [
+                { "day": "Tue", "start": "08:00", "end": "09:30" },
+                { "day": "Thu", "start": "08:00", "end": "09:30" }
+              ]
+            },
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "802",
+              "meetings": [
+                { "day": "Tue", "start": "08:00", "end": "09:30" },
+                { "day": "Thu", "start": "08:00", "end": "09:30" }
+              ]
+            },
+          
+            {
+              "course": "WRDS 150",
+              "component": "LEC",
+              "option": "821",
+              "meetings": [
+                { "day": "Tue", "start": "11:00", "end": "12:30" },
+                { "day": "Thu", "start": "11:00", "end": "12:30" }
+              ]
+            },
+            {
+                "course": "CPSC 121",
+                "component": "LEC",
+                "option": "201",
+                "meetings": [
+                  { "day": "Tue", "start": "09:30", "end": "11:00" },
+                  { "day": "Thu", "start": "09:30", "end": "11:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LEC",
+                "option": "202",
+                "meetings": [
+                  { "day": "Tue", "start": "14:00", "end": "15:30" },
+                  { "day": "Thu", "start": "14:00", "end": "15:30" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LEC",
+                "option": "203",
+                "meetings": [
+                  { "day": "Tue", "start": "17:00", "end": "18:30" },
+                  { "day": "Thu", "start": "17:00", "end": "18:30" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L22",
+                "meetings": [
+                  { "day": "Mon", "start": "11:00", "end": "13:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L23",
+                "meetings": [
+                  { "day": "Wed", "start": "17:00", "end": "19:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L24",
+                "meetings": [
+                  { "day": "Fri", "start": "17:00", "end": "19:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L25",
+                "meetings": [
+                  { "day": "Tue", "start": "11:00", "end": "13:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L26",
+                "meetings": [
+                  { "day": "Thu", "start": "09:00", "end": "11:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L27",
+                "meetings": [
+                  { "day": "Fri", "start": "11:00", "end": "13:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L28",
+                "meetings": [
+                  { "day": "Mon", "start": "15:00", "end": "17:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L2D",
+                "meetings": [
+                  { "day": "Fri", "start": "13:00", "end": "15:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L2E",
+                "meetings": [
+                  { "day": "Tue", "start": "15:00", "end": "17:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L2G",
+                "meetings": [
+                  { "day": "Wed", "start": "15:00", "end": "17:00" }
+                ]
+              },
+              {
+                "course": "CPSC 121",
+                "component": "LAB",
+                "option": "L2H",
+                "meetings": [
+                  { "day": "Mon", "start": "13:00", "end": "15:00" }
+                ]
+              },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2K", "meetings":[{"day":"Fri","start":"09:00","end":"11:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2L", "meetings":[{"day":"Thu","start":"13:00","end":"15:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2M", "meetings":[{"day":"Thu","start":"15:00","end":"17:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2P", "meetings":[{"day":"Mon","start":"11:00","end":"13:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2Q", "meetings":[{"day":"Tue","start":"13:00","end":"15:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2R", "meetings":[{"day":"Fri","start":"15:00","end":"17:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2S", "meetings":[{"day":"Mon","start":"17:00","end":"19:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2U", "meetings":[{"day":"Mon","start":"09:00","end":"11:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2V", "meetings":[{"day":"Wed","start":"09:00","end":"11:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2W", "meetings":[{"day":"Tue","start":"09:00","end":"11:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2X", "meetings":[{"day":"Wed","start":"11:00","end":"13:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2Y", "meetings":[{"day":"Wed","start":"13:00","end":"15:00"}] },
+              { "course":"CPSC 121", "component":"LAB", "option":"L2Z", "meetings":[{"day":"Thu","start":"11:00","end":"13:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2A", "meetings":[{"day":"Wed","start":"12:00","end":"13:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2B", "meetings":[{"day":"Mon","start":"13:00","end":"14:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2C", "meetings":[{"day":"Tue","start":"13:00","end":"14:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2D", "meetings":[{"day":"Thu","start":"12:00","end":"13:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2E", "meetings":[{"day":"Thu","start":"13:00","end":"14:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2F", "meetings":[{"day":"Thu","start":"15:00","end":"16:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2G", "meetings":[{"day":"Thu","start":"11:00","end":"12:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2H", "meetings":[{"day":"Mon","start":"15:00","end":"16:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2I", "meetings":[{"day":"Tue","start":"10:00","end":"11:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2J", "meetings":[{"day":"Wed","start":"09:00","end":"10:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2K", "meetings":[{"day":"Mon","start":"11:00","end":"12:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2L", "meetings":[{"day":"Wed","start":"11:00","end":"12:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2M", "meetings":[{"day":"Fri","start":"11:00","end":"12:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2N", "meetings":[{"day":"Thu","start":"09:00","end":"10:00"}] },
+              { "course":"CPSC 121", "component":"DIS", "option":"T2O", "meetings":[{"day":"Tue","start":"11:00","end":"12:00"}] }
+          ]
