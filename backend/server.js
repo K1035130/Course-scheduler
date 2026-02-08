@@ -50,6 +50,87 @@ const hasConflict = (currentMeetings, candidateMeetings) =>
     )
   );
 
+const normalizePreferences = (prefs) => {
+  const raw = prefs && typeof prefs === "object" ? prefs : {};
+
+  const noClassBefore =
+    typeof raw.noClassBefore === "string" && raw.noClassBefore.includes(":")
+      ? raw.noClassBefore
+      : null;
+
+  const noClassOnDays = Array.isArray(raw.noClassOnDays)
+    ? raw.noClassOnDays.map((d) => String(d || "").trim()).filter(Boolean)
+    : [];
+
+  const maxContinuousHours =
+    raw.maxContinuousHours == null
+      ? null
+      : Number.isFinite(Number(raw.maxContinuousHours))
+      ? Number(raw.maxContinuousHours)
+      : null;
+
+  return {
+    noClassBefore, // e.g. "10:00" or null
+    noClassOnDays, // e.g. ["Fri"]
+    maxContinuousHours, // e.g. 2 or null
+  };
+};
+
+const optionPassesHardConstraints = (optionMeetings, preferences) => {
+  if (preferences.noClassOnDays && preferences.noClassOnDays.length) {
+    const blocked = new Set(preferences.noClassOnDays);
+    for (const m of optionMeetings || []) {
+      if (blocked.has(m.day)) return false;
+    }
+  }
+
+  if (preferences.noClassBefore) {
+    const cutoff = toMinutes(preferences.noClassBefore);
+    for (const m of optionMeetings || []) {
+      if (m.start < cutoff) return false;
+    }
+  }
+
+  return true;
+};
+
+// Treat classes as "continuous" if the gap between adjacent meetings on the same day is <= gapMinutes.
+const violatesMaxContinuousHours = (allMeetings, maxHours, gapMinutes = 10) => {
+  if (!maxHours || maxHours <= 0) return false;
+
+  const byDay = (allMeetings || []).reduce((acc, m) => {
+    (acc[m.day] ||= []).push(m);
+    return acc;
+  }, {});
+
+  const limit = maxHours * 60;
+
+  for (const day of Object.keys(byDay)) {
+    const list = byDay[day].slice().sort((a, b) => a.start - b.start);
+    if (list.length === 0) continue;
+
+    let blockStart = list[0].start;
+    let blockEnd = list[0].end;
+
+    for (let i = 1; i < list.length; i++) {
+      const cur = list[i];
+      const gap = cur.start - blockEnd;
+
+      if (gap <= gapMinutes) {
+        blockEnd = Math.max(blockEnd, cur.end);
+      } else {
+        if (blockEnd - blockStart > limit) return true;
+        blockStart = cur.start;
+        blockEnd = cur.end;
+      }
+    }
+
+    if (blockEnd - blockStart > limit) return true;
+  }
+
+  return false;
+};
+
 const buildCourseOptions = (course) => {
   const required = courseRules[course];
   if (!required || !required.length) {
@@ -96,7 +177,8 @@ const buildCourseOptions = (course) => {
   return { combinations };
 };
 
-const scheduleCourses = (requests) => {
+const scheduleCourses = (requests, preferencesInput) => {
+  const preferences = normalizePreferences(preferencesInput);
   const normalized = (Array.isArray(requests) ? requests : [])
     .map((r) => ({
       course: String(r?.course || "").trim(),
@@ -128,7 +210,25 @@ const scheduleCourses = (requests) => {
     if (result.error) {
       return { error: result.error };
     }
-    return { course: request.course, options: result.combinations };
+
+    // Apply HARD constraints (noClassBefore / noClassOnDays)
+    const filteredOptions = (result.combinations || []).filter((combo) =>
+      optionPassesHardConstraints(combo.meetings || [], preferences)
+    );
+
+    if (!filteredOptions.length) {
+      const reasons = [];
+      if (preferences.noClassBefore)
+        reasons.push(`noClassBefore=${preferences.noClassBefore}`);
+      if (preferences.noClassOnDays.length)
+        reasons.push(`noClassOnDays=${preferences.noClassOnDays.join(",")}`);
+      const suffix = reasons.length
+        ? ` (after applying ${reasons.join(" and ")})`
+        : "";
+      return { error: `No valid options remain for ${request.course}${suffix}.` };
+    }
+
+    return { course: request.course, options: filteredOptions };
   });
 
   const failed = courseOptions.find((option) => option.error);
@@ -138,23 +238,61 @@ const scheduleCourses = (requests) => {
 
   const resolved = [];
 
-  const dfs = (index, meetings) => {
+  const dfsStrict = (index, meetings) => {
     if (index >= courseOptions.length) {
       resolved.push(...meetings);
       return true;
     }
+
     const { options } = courseOptions[index];
     for (const option of options) {
-      if (!hasConflict(meetings, option.meetings)) {
-        if (dfs(index + 1, [...meetings, ...option.meetings])) {
-          return true;
-        }
+      const nextMeetings = [...meetings, ...(option.meetings || [])];
+
+      if (hasConflict(meetings, option.meetings || [])) continue;
+
+      // Soft constraint: avoid long continuous blocks
+      if (
+        preferences.maxContinuousHours &&
+        violatesMaxContinuousHours(nextMeetings, preferences.maxContinuousHours)
+      ) {
+        continue;
       }
+
+      if (dfsStrict(index + 1, nextMeetings)) return true;
     }
+
     return false;
   };
 
-  const success = dfs(0, []);
+  const dfsRelaxed = (index, meetings) => {
+    if (index >= courseOptions.length) {
+      resolved.push(...meetings);
+      return true;
+    }
+
+    const { options } = courseOptions[index];
+    for (const option of options) {
+      const nextMeetings = [...meetings, ...(option.meetings || [])];
+
+      if (hasConflict(meetings, option.meetings || [])) continue;
+
+      if (dfsRelaxed(index + 1, nextMeetings)) return true;
+    }
+
+    return false;
+  };
+
+  // First try strict (soft constraint enforced if provided)
+  let usedRelaxed = false;
+  let success = dfsStrict(0, []);
+
+  // Fallback: relax ONLY the soft constraint
+  if (!success) {
+    resolved.length = 0;
+    usedRelaxed = true;
+    success = dfsRelaxed(0, []);
+  }
+
   if (!success) {
     return {
       status: "conflict",
@@ -178,7 +316,24 @@ const scheduleCourses = (requests) => {
     return a.day.localeCompare(b.day);
   });
 
-  return { status: "ok", timetable };
+  const warnings = [];
+  if (usedRelaxed && preferences.maxContinuousHours) {
+    warnings.push(
+      `Could not satisfy maxContinuousHours=${preferences.maxContinuousHours}. Generated a feasible schedule by relaxing it.`
+    );
+  }
+
+  return {
+    status: "ok",
+    timetable,
+    warnings,
+    appliedPreferences: {
+      noClassBefore: preferences.noClassBefore,
+      noClassOnDays: preferences.noClassOnDays,
+      maxContinuousHours: preferences.maxContinuousHours,
+      softConstraintRelaxed: usedRelaxed,
+    },
+  };
 };
 
 const serveStatic = (req, res) => {
@@ -224,7 +379,8 @@ const server = http.createServer((req, res) => {
       try {
         const payload = JSON.parse(body || "{}");
         const requests = Array.isArray(payload.requests) ? payload.requests : [];
-        const result = scheduleCourses(requests);
+        const preferences = payload.preferences || {};
+        const result = scheduleCourses(requests, preferences);
         sendJson(res, result.status === "ok" ? 200 : 400, result);
       } catch (error) {
         sendJson(res, 400, {

@@ -25,7 +25,34 @@ const dayLabels = {
 let requests = [];
 let timetable = [];
 
+
 const normalizeCourse = (value) => String(value || "").trim().toUpperCase();
+
+const readPreferencesFromUI = () => {
+  const prefs = {};
+
+  const noBefore = document.getElementById("pref-no-before");
+  if (noBefore && noBefore.checked) {
+    const t = (document.getElementById("pref-no-before-time")?.value || "").trim();
+    prefs.noClassBefore = t || "10:00";
+  }
+
+  const dayChecks = Array.from(document.querySelectorAll(".pref-day"));
+  const blockedDays = dayChecks.filter((el) => el.checked).map((el) => el.value);
+  if (blockedDays.length) {
+    prefs.noClassOnDays = blockedDays;
+  }
+
+  const maxEl = document.getElementById("pref-max-continuous");
+  if (maxEl) {
+    const v = Number(maxEl.value);
+    if (Number.isFinite(v) && v > 0) {
+      prefs.maxContinuousHours = v;
+    }
+  }
+
+  return prefs;
+};
 
 const toMinutes = (value) => {
   const [hours, minutes] = value.split(":").map(Number);
@@ -153,13 +180,22 @@ const render = () => {
 };
 
 const requestSchedule = async (nextRequests) => {
+  const preferences = readPreferencesFromUI();
   const response = await fetch("/api/schedule", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ requests: nextRequests }),
+    body: JSON.stringify({ requests: nextRequests, preferences }),
   });
   if (!response.ok) {
-    throw new Error("Backend error");
+    // backend returns JSON with message; try to parse for better feedback
+    let payload = null;
+    try {
+      payload = await response.json();
+    } catch (_) {
+      // ignore
+    }
+    const msg = payload?.message || "Backend error";
+    throw new Error(msg);
   }
   return response.json();
 };
@@ -178,7 +214,14 @@ const removeCourse = async (courseToRemove) => {
     }
     requests = nextRequests;
     timetable = result.timetable || [];
-    showMessage("Course removed.", false);
+
+    const warnings = Array.isArray(result.warnings) ? result.warnings : [];
+    if (warnings.length) {
+      showMessage(warnings.join(" "), false);
+    } else {
+      showMessage("Course removed.", false);
+    }
+
     render();
   } catch (error) {
     showMessage("Unable to reach the backend.");
@@ -213,13 +256,45 @@ form.addEventListener("submit", async (event) => {
     }
     requests = nextRequests;
     timetable = result.timetable || [];
-    showMessage("Course added to your timetable.", false);
+
+    const warnings = Array.isArray(result.warnings) ? result.warnings : [];
+    if (warnings.length) {
+      showMessage(warnings.join(" "), false);
+    } else {
+      showMessage("Course added to your timetable.", false);
+    }
+
     form.reset();
     render();
   } catch (error) {
     showMessage("Unable to reach the backend.");
   }
 });
+
+
+const prefsPanel = document.getElementById("prefs");
+if (prefsPanel) {
+  prefsPanel.addEventListener("change", async () => {
+    if (!requests.length) return;
+    try {
+      const result = await requestSchedule(requests);
+      if (result.status === "ok") {
+        timetable = result.timetable || [];
+        const warnings = Array.isArray(result.warnings) ? result.warnings : [];
+        if (warnings.length) {
+          showMessage(warnings.join(" "), false);
+        } else {
+          showMessage("Preferences updated.", false);
+        }
+        render();
+      } else {
+        showMessage(result.message || "Unable to apply preferences.");
+      }
+    } catch (error) {
+      showMessage(error.message || "Unable to reach the backend.");
+    }
+  });
+}
 
 rulesHint.textContent =
   "Pick a course code and we will auto-schedule the required sections.";

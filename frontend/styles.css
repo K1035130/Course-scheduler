@@ -131,9 +131,9 @@ h1 {
 }
 
 .course-list li button {
-  margin-left: 12px;
-  padding: 6px 12px;
-  font-size: 0.85rem;
+  margin-left: 16px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
 }
 
 .summary-card .course-list li {
@@ -358,4 +358,59 @@ button:hover {
   .top-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* ===== Preferences (Scheduler Filters) ===== */
+.prefs {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.prefs-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.prefs-subtitle {
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin: 10px 0 6px;
+}
+
+.pref-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 0.85rem;
+}
+
+#pref-no-before-time {
+  margin-left: auto;
+}
+
+.prefs-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.pref-day-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+#pref-max-continuous {
+  margin-left: auto;
+  width: 90px;
+}
+
+.prefs-hint {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  opacity: 0.8;
 }
