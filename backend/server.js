@@ -1,3 +1,5 @@
+// Load environment variables from .env (local dev)
+require("dotenv").config();
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -29,10 +31,193 @@ const sendJson = (res, statusCode, payload) => {
   res.writeHead(statusCode, {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   });
   res.end(JSON.stringify(payload));
+};
+
+// ===== AI (Gemini) helpers =====
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+
+const normalizeGeminiModel = (value) => {
+  const v = String(value || "").trim();
+  if (!v) return "";
+  // Accept either "gemini-..." or "models/gemini-..." and normalize to the bare model id.
+  return v.startsWith("models/") ? v.slice("models/".length) : v;
+};
+
+// Use a fast/cheap default; allow override via env.
+const GEMINI_MODEL = normalizeGeminiModel(process.env.GEMINI_MODEL) || "gemini-2.0-flash";
+
+// Tiny startup sanity check (helps debug Missing GEMINI_API_KEY)
+console.log("[AI] GEMINI_API_KEY loaded?", !!GEMINI_API_KEY);
+console.log("[AI] GEMINI_MODEL:", GEMINI_MODEL);
+
+const safeJsonParse = (text, fallback) => {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return fallback;
+  }
+};
+
+const buildSuggestionPrompt = ({ selectedCourses, timetable, preferences }) => {
+  const courses = Array.isArray(selectedCourses) ? selectedCourses : [];
+  const tt = Array.isArray(timetable) ? timetable : [];
+  const prefs = preferences && typeof preferences === "object" ? preferences : {};
+
+  // Keep prompt small + structured for hackathon reliability
+  return `You are an academic course planning assistant for UBC students.
+
+INPUT:
+- Selected courses (course codes): ${courses.map((c) => String(c)).join(", ") || "(none)"}
+- Current timetable entries (JSON): ${JSON.stringify(tt)}
+- Preferences (JSON): ${JSON.stringify(prefs)}
+
+TASK:
+Return 4-7 actionable suggestions to improve the student's schedule/plan.
+
+Rules:
+- Be concise.
+- Do NOT invent specific degree requirements unless explicitly present in the input.
+- You MAY suggest general next-steps (e.g., check prerequisites, balance workload, avoid early classes).
+- Output MUST be valid JSON with shape:
+  {"suggestions": ["...", "..."], "notes": "optional"}
+`;
+};
+
+const callGemini = async (prompt) => {
+  if (!GEMINI_API_KEY) {
+    return {
+      ok: false,
+      status: 500,
+      error:
+        "Missing GEMINI_API_KEY. Create backend/.env and set GEMINI_API_KEY=... then restart the server.",
+    };
+  }
+
+  // Avoid "cold silence" by timing out.
+  const controller = new AbortController();
+  const timeoutMs = Number(process.env.GEMINI_TIMEOUT_MS || 12000);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  const shouldRetryModel = (status, data) => {
+    const msg = String(data?.error?.message || "").toLowerCase();
+    // Common cases when a model name is wrong / not available for this endpoint.
+    return (
+      status === 404 ||
+      msg.includes("not found") ||
+      msg.includes("is not supported") ||
+      msg.includes("unsupported") ||
+      msg.includes("invalid argument")
+    );
+  };
+
+  const extractText = (data) => {
+    return (
+      data?.candidates?.[0]?.content?.parts
+        ?.map((p) => p?.text)
+        .filter(Boolean)
+        .join("\n") ||
+      ""
+    );
+  };
+
+  const doGenerate = async (modelId) => {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+      normalizeGeminiModel(modelId)
+    )}:generateContent`;
+
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": GEMINI_API_KEY,
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: prompt }],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.4,
+          maxOutputTokens: 768,
+        },
+      }),
+      signal: controller.signal,
+    });
+
+    const data = await resp.json().catch(() => ({}));
+    const text = extractText(data);
+
+    return { resp, data, text };
+  };
+
+  // Try the configured model first, then fall back to a few common candidates.
+  const candidates = [
+    GEMINI_MODEL,
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-pro",
+  ]
+    .map((m) => normalizeGeminiModel(m))
+    .filter(Boolean)
+    // de-dupe while preserving order
+    .filter((m, i, arr) => arr.indexOf(m) === i);
+
+  let lastError = null;
+
+  try {
+    for (let i = 0; i < candidates.length; i++) {
+      const modelId = candidates[i];
+      const { resp, data, text } = await doGenerate(modelId);
+
+      if (resp.ok) {
+        return { ok: true, status: 200, text, raw: data, usedModel: modelId };
+      }
+
+      const errMsg =
+        data?.error?.message ||
+        `Gemini API error (HTTP ${resp.status}).` ||
+        "Gemini API error.";
+
+      lastError = {
+        ok: false,
+        status: resp.status,
+        error: errMsg,
+        raw: data,
+        triedModel: modelId,
+      };
+
+      // Only retry on model/endpoint mismatch type errors.
+      if (!shouldRetryModel(resp.status, data)) {
+        return lastError;
+      }
+    }
+
+    // All candidates failed.
+    return (
+      lastError || {
+        ok: false,
+        status: 500,
+        error: "Gemini API request failed.",
+      }
+    );
+  } catch (err) {
+    const isTimeout = String(err?.name) === "AbortError";
+    return {
+      ok: false,
+      status: isTimeout ? 504 : 500,
+      error: isTimeout
+        ? `Gemini request timeout after ${timeoutMs}ms.`
+        : String(err?.message || err),
+    };
+  } finally {
+    clearTimeout(timer);
+  }
 };
 
 const toMinutes = (value) => {
@@ -363,10 +548,25 @@ const server = http.createServer((req, res) => {
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     });
     res.end();
+    return;
+  }
+
+  // AI: expose current model configuration (debug helper)
+  if (req.url === "/api/ai/models" && req.method === "GET") {
+    sendJson(res, 200, {
+      status: "ok",
+      hasKey: Boolean(GEMINI_API_KEY),
+      model: GEMINI_MODEL,
+      candidates: [
+        "gemini-2.0-flash",
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+      ],
+    });
     return;
   }
 
@@ -382,6 +582,79 @@ const server = http.createServer((req, res) => {
         const preferences = payload.preferences || {};
         const result = scheduleCourses(requests, preferences);
         sendJson(res, result.status === "ok" ? 200 : 400, result);
+      } catch (error) {
+        sendJson(res, 400, {
+          status: "error",
+          message: "Invalid request payload.",
+        });
+      }
+    });
+    return;
+  }
+
+  if (req.url === "/api/ai/suggest" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+    req.on("end", async () => {
+      try {
+        const payload = safeJsonParse(body || "{}", {});
+
+        const selectedCourses = Array.isArray(payload.selectedCourses)
+          ? payload.selectedCourses
+          : Array.isArray(payload.requests)
+          ? payload.requests.map((r) => r?.course).filter(Boolean)
+          : [];
+
+        const timetable = Array.isArray(payload.timetable) ? payload.timetable : [];
+        const preferences = payload.preferences || {};
+
+        const prompt = buildSuggestionPrompt({
+          selectedCourses,
+          timetable,
+          preferences,
+        });
+
+        const result = await callGemini(prompt);
+        if (!result.ok) {
+          sendJson(res, result.status || 500, {
+            status: "error",
+            message: result.error || "AI request failed.",
+            // Helpful for debugging model/version issues
+            details: {
+              configuredModel: GEMINI_MODEL,
+              triedModel: result.triedModel || null,
+              usedModel: result.usedModel || null,
+              httpStatus: result.status,
+              geminiError: result.raw?.error?.message || null,
+            },
+          });
+          return;
+        }
+
+        // Try parse JSON from model; fallback to plain text suggestions
+        const parsed = safeJsonParse(result.text, null);
+        if (parsed && Array.isArray(parsed.suggestions)) {
+          sendJson(res, 200, {
+            status: "ok",
+            suggestions: parsed.suggestions,
+            notes: parsed.notes || "",
+          });
+          return;
+        }
+
+        sendJson(res, 200, {
+          status: "ok",
+          suggestions: result.text
+            ? result.text
+                .split(/\n+/)
+                .map((s) => s.trim())
+                .filter(Boolean)
+                .slice(0, 7)
+            : [],
+          notes: "Model did not return JSON; fallback parsing applied.",
+        });
       } catch (error) {
         sendJson(res, 400, {
           status: "error",

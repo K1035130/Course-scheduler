@@ -12,6 +12,11 @@ const suggestionList = document.getElementById("course-suggestions");
 const selectedCoursesList = document.getElementById("selected-courses");
 const selectedEmpty = document.getElementById("selected-empty");
 
+// AI suggestions UI (optional; only works if index.html includes these ids)
+const aiSuggestBtn = document.getElementById("ai-suggest-btn");
+const aiStatus = document.getElementById("ai-status");
+const aiSuggestionsEl = document.getElementById("ai-suggestions");
+
 const dayLabels = {
   Mon: "Monday",
   Tue: "Tuesday",
@@ -62,6 +67,47 @@ const toMinutes = (value) => {
 const showMessage = (text, isError = true) => {
   message.textContent = text;
   message.style.color = isError ? "#d9480f" : "#2b8a3e";
+};
+
+const setAiStatus = (text, isError = false) => {
+  if (!aiStatus) return;
+  aiStatus.textContent = text;
+  aiStatus.style.color = isError ? "#d9480f" : "";
+};
+
+const renderAiSuggestions = (suggestions) => {
+  if (!aiSuggestionsEl) return;
+  aiSuggestionsEl.innerHTML = "";
+  (Array.isArray(suggestions) ? suggestions : []).forEach((s) => {
+    const li = document.createElement("li");
+    li.textContent = String(s);
+    aiSuggestionsEl.appendChild(li);
+  });
+};
+
+const requestAiSuggestions = async () => {
+  const selectedCourses = requests.map((r) => r.course);
+  const preferences = readPreferencesFromUI();
+
+  const response = await fetch("/api/ai/suggest", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      selectedCourses,
+      timetable,
+      preferences,
+    }),
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload?.message || "AI request failed");
+  }
+
+  return {
+    suggestions: Array.isArray(payload.suggestions) ? payload.suggestions : [],
+    notes: payload.notes || "",
+  };
 };
 
 const updateSuggestions = (items) => {
@@ -300,3 +346,28 @@ rulesHint.textContent =
   "Pick a course code and we will auto-schedule the required sections.";
 loadCourseSuggestions();
 render();
+
+// Wire AI button (if present)
+if (aiSuggestBtn) {
+  aiSuggestBtn.addEventListener("click", async () => {
+    if (!requests.length) {
+      setAiStatus("Add at least one course first.", true);
+      renderAiSuggestions([]);
+      return;
+    }
+
+    aiSuggestBtn.disabled = true;
+    setAiStatus("Generating suggestions...");
+    renderAiSuggestions([]);
+
+    try {
+      const { suggestions, notes } = await requestAiSuggestions();
+      renderAiSuggestions(suggestions);
+      setAiStatus(notes || "");
+    } catch (err) {
+      setAiStatus(err?.message || "Unable to reach AI endpoint.", true);
+    } finally {
+      aiSuggestBtn.disabled = false;
+    }
+  });
+}
