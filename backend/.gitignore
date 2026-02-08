@@ -12,3 +12,4 @@ config.local.*
 *api-key*
 *secret*
 *token*
+./backend/node_modules
