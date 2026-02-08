@@ -12,25 +12,7 @@ let sections = [];
 let sectionsByCourse = {};
 
 const COURSE_RULES_COLLECTION =
-<<<<<<< HEAD
-  process.env.COURSE_RULES_COLLECTION || "CoursesRules";
-// Fallback collection probe (disabled by request)
-// const COURSE_RULES_COLLECTIONS = (
-//   process.env.COURSE_RULES_COLLECTIONS ||
-//   [
-//     "CorsesRules",
-//     "CourseRules",
-//     "CoursesRules",
-//     "CouseRules",
-//     "CourseRule",
-//   ].join(",")
-// )
-//   .split(",")
-//   .map((s) => s.trim())
-//   .filter(Boolean);
-=======
   process.env.COURSE_RULES_COLLECTION;
->>>>>>> c309e7002c79229127957a869ca54eba033e232a
 const SECTIONS_COLLECTION = process.env.SECTIONS_COLLECTION || "Sections";
 
 const getCourseList = () => {
@@ -783,15 +765,9 @@ const startServer = async () => {
     process.exit(1);
   }
 
-<<<<<<< HEAD
-  const PORT = process.env.PORT || 3000;
-  server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-=======
   const port = Number(process.env.PORT || 3000);
   server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
->>>>>>> c309e7002c79229127957a869ca54eba033e232a
   });
 };
 
