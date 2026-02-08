@@ -1,0 +1,14 @@
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Local config overrides
+config.local.*
+*.local.json
+
+# Common API key files
+*apikey*
+*api-key*
+*secret*
+*token*
