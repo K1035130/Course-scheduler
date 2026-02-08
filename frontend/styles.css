@@ -391,6 +391,7 @@ button:hover {
 .prefs-title {
   font-weight: 700;
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
 .prefs-inline {
@@ -403,7 +404,7 @@ button:hover {
 .prefs-subtitle {
   font-weight: 600;
   font-size: 0.8rem;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .pref-row {
@@ -449,6 +450,12 @@ button:hover {
 
 .prefs-hint {
   margin-top: 6px;
+  margin-bottom: 15px;
   font-size: 0.8rem;
   opacity: 0.8;
+}
+
+.ai-button {
+  box-shadow: 0 12px 24px rgba(29, 78, 216, 0.25);
+  margin-top: 20px;
 }
