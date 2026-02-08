@@ -4,11 +4,5 @@ A lightweight web application designed to assist UBC students with course select
 
 ## How to run
 
-Start the backend server:
+Open https://course-scheduler-0omv.onrender.com in your browser 
 
-```bash
-cd backend
-npm start
-```
-
-Then open `http://localhost:3000` in your browser.

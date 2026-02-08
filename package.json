@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node backend/server.js"
+  },
   "dependencies": {
     "mongodb": "^7.1.0"
   }

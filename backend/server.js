@@ -12,6 +12,7 @@ let sections = [];
 let sectionsByCourse = {};
 
 const COURSE_RULES_COLLECTION =
+<<<<<<< HEAD
   process.env.COURSE_RULES_COLLECTION || "CoursesRules";
 // Fallback collection probe (disabled by request)
 // const COURSE_RULES_COLLECTIONS = (
@@ -27,6 +28,9 @@ const COURSE_RULES_COLLECTION =
 //   .split(",")
 //   .map((s) => s.trim())
 //   .filter(Boolean);
+=======
+  process.env.COURSE_RULES_COLLECTION;
+>>>>>>> c309e7002c79229127957a869ca54eba033e232a
 const SECTIONS_COLLECTION = process.env.SECTIONS_COLLECTION || "Sections";
 
 const getCourseList = () => {
@@ -53,17 +57,7 @@ const loadDataFromMongo = async () => {
     .toArray();
 
   let usedCourseRulesCollection = COURSE_RULES_COLLECTION;
-  // if (!courseRulesRows.length) {
-  //   for (const name of COURSE_RULES_COLLECTIONS) {
-  //     if (name === COURSE_RULES_COLLECTION) continue;
-  //     const rows = await db.collection(name).find({}).toArray();
-  //     if (rows.length) {
-  //       courseRulesRows = rows;
-  //       usedCourseRulesCollection = name;
-  //       break;
-  //     }
-  //   }
-  // }
+  
   const sectionsRows = await db
     .collection(SECTIONS_COLLECTION)
     .find({})
@@ -789,9 +783,15 @@ const startServer = async () => {
     process.exit(1);
   }
 
+<<<<<<< HEAD
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+=======
+  const port = Number(process.env.PORT || 3000);
+  server.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+>>>>>>> c309e7002c79229127957a869ca54eba033e232a
   });
 };
 
