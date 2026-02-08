@@ -159,6 +159,7 @@ Rules:
 - Do NOT suggest adding other section/LAB/DIS for a course that already have.
 - Output MUST be valid JSON with shape:
   {"suggestions": ["...", "..."], "notes": "optional"}
+- only give suggestions about which cources to add/drop
 `;
 };
 
