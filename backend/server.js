@@ -97,9 +97,25 @@ const buildCourseOptions = (course) => {
 };
 
 const scheduleCourses = (requests) => {
-  const normalized = requests.map((request) => ({
-    course: request.course,
-  }));
+  const normalized = (Array.isArray(requests) ? requests : [])
+    .map((r) => ({
+      course: String(r?.course || "").trim(),
+    }))
+    .filter((r) => r.course.length > 0);
+
+  // 重复课程直接报错（防止同一门课点两次）
+  const seen = new Set();
+  const duplicates = new Set();
+  for (const r of normalized) {
+    if (seen.has(r.course)) duplicates.add(r.course);
+    else seen.add(r.course);
+  }
+  if (duplicates.size > 0) {
+    return {
+      status: "error",
+      message: `Duplicate course(s) in request: ${[...duplicates].join(", ")}`,
+    };
+  }
 
   for (const request of normalized) {
     if (!courseRules[request.course]) {
