@@ -12,7 +12,7 @@ let sections = [];
 let sectionsByCourse = {};
 
 const COURSE_RULES_COLLECTION =
-  process.env.COURSE_RULES_COLLECTION || "CorsesRules";
+  process.env.COURSE_RULES_COLLECTION || "CoursesRules";
 // Fallback collection probe (disabled by request)
 // const COURSE_RULES_COLLECTIONS = (
 //   process.env.COURSE_RULES_COLLECTIONS ||
@@ -789,8 +789,9 @@ const startServer = async () => {
     process.exit(1);
   }
 
-  server.listen(3000, () => {
-    console.log("Server running at http://localhost:3000");
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
 };
 
