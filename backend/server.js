@@ -39,17 +39,7 @@ const loadDataFromMongo = async () => {
     .toArray();
 
   let usedCourseRulesCollection = COURSE_RULES_COLLECTION;
-  // if (!courseRulesRows.length) {
-  //   for (const name of COURSE_RULES_COLLECTIONS) {
-  //     if (name === COURSE_RULES_COLLECTION) continue;
-  //     const rows = await db.collection(name).find({}).toArray();
-  //     if (rows.length) {
-  //       courseRulesRows = rows;
-  //       usedCourseRulesCollection = name;
-  //       break;
-  //     }
-  //   }
-  // }
+  
   const sectionsRows = await db
     .collection(SECTIONS_COLLECTION)
     .find({})
