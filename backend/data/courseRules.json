@@ -3,5 +3,12 @@
     "MATH 100": ["LEC", "DIS"],
     "MATH 101": ["LEC", "DIS"],
     "WRDS 150": ["LEC"],
-    "CPSC 121": ["LEC", "LAB", "DIS"]
+    "CPSC 121": ["LEC", "LAB", "DIS"],
+    "ECON 101": ["LEC", "DIS"],
+    "ECON 102": ["LEC", "DIS"],
+    "DSCI 100": ["LEC"],
+    "PHYS 119": ["LAB"],
+    "PHYS 118": ["LEC", "DIS"],
+    "BIOL 111": ["LEC"],
+    "BIOL 121": ["LEC"]
   }
