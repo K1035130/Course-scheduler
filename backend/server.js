@@ -3,22 +3,95 @@ require("dotenv").config();
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { connectToMongo, getDb } = require("./db/mongo");
 
-const DATA_DIR = path.join(__dirname, "data");
 const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
 
-const loadJson = (filePath) =>
-  JSON.parse(fs.readFileSync(filePath, "utf-8"));
+let courseRules = {};
+let sections = [];
+let sectionsByCourse = {};
 
-const courseRules = loadJson(path.join(DATA_DIR, "courseRules.json"));
-const sections = loadJson(path.join(DATA_DIR, "sections.json"));
+const COURSE_RULES_COLLECTION =
+  process.env.COURSE_RULES_COLLECTION || "CorsesRules";
+// Fallback collection probe (disabled by request)
+// const COURSE_RULES_COLLECTIONS = (
+//   process.env.COURSE_RULES_COLLECTIONS ||
+//   [
+//     "CorsesRules",
+//     "CourseRules",
+//     "CoursesRules",
+//     "CouseRules",
+//     "CourseRule",
+//   ].join(",")
+// )
+//   .split(",")
+//   .map((s) => s.trim())
+//   .filter(Boolean);
+const SECTIONS_COLLECTION = process.env.SECTIONS_COLLECTION || "Sections";
 
-const sectionsByCourse = sections.reduce((acc, section) => {
-  if (!section.course) return acc;
-  if (!acc[section.course]) acc[section.course] = [];
-  acc[section.course].push(section);
-  return acc;
-}, {});
+const getCourseList = () => {
+  const fromRules = Object.keys(courseRules || {}).filter(Boolean);
+  if (fromRules.length) return fromRules.sort();
+
+  const fromSections = Object.keys(sectionsByCourse || {}).filter(Boolean);
+  return fromSections.sort();
+};
+
+const buildSectionsByCourse = (items) =>
+  items.reduce((acc, section) => {
+    if (!section.course) return acc;
+    if (!acc[section.course]) acc[section.course] = [];
+    acc[section.course].push(section);
+    return acc;
+  }, {});
+
+const loadDataFromMongo = async () => {
+  const db = getDb();
+  let courseRulesRows = await db
+    .collection(COURSE_RULES_COLLECTION)
+    .find({})
+    .toArray();
+
+  let usedCourseRulesCollection = COURSE_RULES_COLLECTION;
+  // if (!courseRulesRows.length) {
+  //   for (const name of COURSE_RULES_COLLECTIONS) {
+  //     if (name === COURSE_RULES_COLLECTION) continue;
+  //     const rows = await db.collection(name).find({}).toArray();
+  //     if (rows.length) {
+  //       courseRulesRows = rows;
+  //       usedCourseRulesCollection = name;
+  //       break;
+  //     }
+  //   }
+  // }
+  const sectionsRows = await db
+    .collection(SECTIONS_COLLECTION)
+    .find({})
+    .toArray();
+
+  courseRules = courseRulesRows.reduce((acc, row) => {
+    if (row?.course && Array.isArray(row?.required)) {
+      acc[String(row.course)] = row.required.map((v) => String(v));
+    }
+    return acc;
+  }, {});
+
+  sections = sectionsRows.map((row) => ({
+    course: row?.course,
+    component: row?.component,
+    option: row?.option,
+    meetings: Array.isArray(row?.meetings) ? row.meetings : [],
+  }));
+
+  sectionsByCourse = buildSectionsByCourse(sections);
+
+  console.log(
+    `[MongoDB] loaded ${Object.keys(courseRules).length} course rules, ${sections.length} sections`
+  );
+  console.log(
+    `[MongoDB] course rules collection used: ${usedCourseRulesCollection}`
+  );
+};
 
 const contentTypeByExt = {
   ".html": "text/html",
@@ -610,6 +683,26 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.url === "/api/courses" && req.method === "GET") {
+    const courses = getCourseList();
+    sendJson(res, 200, {
+      status: "ok",
+      courses,
+      source: Object.keys(courseRules || {}).length ? "courseRules" : "sections",
+    });
+    return;
+  }
+
+  if (req.url === "/api/health" && req.method === "GET") {
+    sendJson(res, 200, {
+      status: "ok",
+      courseRulesCount: Object.keys(courseRules || {}).length,
+      sectionsCount: sections.length,
+      coursesCount: getCourseList().length,
+    });
+    return;
+  }
+
   if (req.url === "/api/ai/suggest" && req.method === "POST") {
     let body = "";
     req.on("data", (chunk) => {
@@ -683,26 +776,21 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (req.url.startsWith("/data/")) {
-    const dataPath = path.join(DATA_DIR, req.url.replace("/data/", ""));
-    if (!dataPath.startsWith(DATA_DIR) || !fs.existsSync(dataPath)) {
-      res.writeHead(404);
-      res.end("Not Found");
-      return;
-    }
-    const ext = path.extname(dataPath);
-    const contentType = contentTypeByExt[ext] || "application/octet-stream";
-    res.writeHead(200, {
-      "Content-Type": contentType,
-      "Access-Control-Allow-Origin": "*",
-    });
-    fs.createReadStream(dataPath).pipe(res);
-    return;
-  }
-
   serveStatic(req, res);
 });
 
-server.listen(3000, () => {
-  console.log("Server running at http://localhost:3000");
-});
+const startServer = async () => {
+  try {
+    await connectToMongo();
+    await loadDataFromMongo();
+  } catch (err) {
+    console.error("[MongoDB] startup failed:", err?.message || err);
+    process.exit(1);
+  }
+
+  server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+  });
+};
+
+startServer();

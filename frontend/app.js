@@ -210,14 +210,12 @@ const updateSuggestions = (items) => {
 
 const loadCourseSuggestions = async () => {
   try {
-    const response = await fetch("/data/sections.json");
+    const response = await fetch("/api/courses");
     if (!response.ok) {
       throw new Error("Unable to load course list");
     }
-    const data = await response.json();
-    const courses = Array.from(
-      new Set(data.map((section) => section.course).filter(Boolean))
-    ).sort();
+    const payload = await response.json().catch(() => ({}));
+    const courses = Array.isArray(payload.courses) ? payload.courses : [];
     updateSuggestions(courses);
     ruleStatus.textContent =
       "Suggestions are created based on current choosen courses.";
