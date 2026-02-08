@@ -167,11 +167,21 @@ h1 {
   gap: 24px;
 }
 
-.top-row {
-  display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(260px, 360px);
-  gap: 24px;
+.layout-split {
+  grid-template-columns: minmax(260px, 340px) 1fr;
   align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .card {
@@ -355,8 +365,12 @@ button:hover {
 }
 
 @media (max-width: 900px) {
-  .top-row {
+  .layout-split {
     grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
   }
 }
 
