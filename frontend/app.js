@@ -71,16 +71,98 @@ const showMessage = (text, isError = true) => {
 
 const setAiStatus = (text, isError = false) => {
   if (!aiStatus) return;
-  aiStatus.textContent = text;
+
+  const raw = String(text || "");
+
+  // Make status user-friendly (avoid dumping long stack traces / API payloads)
+  const normalize = (msg) => {
+    const s = String(msg || "").trim();
+    if (!s) return "";
+
+    // Common Gemini / backend errors -> short messages
+    const lower = s.toLowerCase();
+    if (lower.includes("exceeded your current quota") || lower.includes("quota exceeded")) {
+      return "AI request limit reached. Please try again later or upgrade your plan.";
+    }
+    if (lower.includes("not found") && lower.includes("models/")) {
+      return "The selected AI model is not supported. Please switch to an available Gemini model.";
+    }
+    if (lower.includes("api key") && (lower.includes("missing") || lower.includes("invalid"))) {
+      return "AI API key is missing or invalid. Please check GEMINI_API_KEY in your .env file.";
+    }
+
+    // Truncate overly long messages
+    const oneLine = s.replace(/\s+/g, " ");
+    return oneLine.length > 140 ? oneLine.slice(0, 140) + "…" : oneLine;
+  };
+
+  const friendly = normalize(raw);
+
+  // Hide the status element entirely when there's nothing meaningful to show
+  if (!friendly) {
+    aiStatus.textContent = "";
+    aiStatus.style.display = "none";
+    return;
+  }
+
+  aiStatus.style.display = "block";
+
+  aiStatus.textContent = friendly;
   aiStatus.style.color = isError ? "#d9480f" : "";
 };
 
 const renderAiSuggestions = (suggestions) => {
   if (!aiSuggestionsEl) return;
+
+  // Make the list look nicer without needing extra CSS
   aiSuggestionsEl.innerHTML = "";
-  (Array.isArray(suggestions) ? suggestions : []).forEach((s) => {
+  aiSuggestionsEl.style.margin = "8px 0 0";
+  aiSuggestionsEl.style.paddingLeft = "18px";
+  aiSuggestionsEl.style.listStyle = "decimal";
+
+  // Some Gemini responses (or our fallback parser) can leak code fences / JSON scaffolding.
+  // We aggressively clean that so the UI stays readable for users.
+  const cleanOne = (s) => {
+    let t = String(s ?? "").trim();
+    if (!t) return "";
+
+    // Drop common scaffolding/noise lines
+    const lower = t.toLowerCase();
+    if (lower.startsWith("```")) return "";
+    if (lower === "json" || lower === "```json") return "";
+    if (t === "{" || t === "}" || t === "[" || t === "]") return "";
+    if (lower.includes("model did not return json")) return "";
+    if (lower === "\"suggestions\":" || lower.startsWith("\"suggestions\"")) return "";
+
+    // Remove leading bullet markers if they sneak in
+    t = t.replace(/^[-*•]+\s+/, "");
+
+    // Remove stray quotes / trailing commas from JSON-ish lines
+    t = t.replace(/^"/, "").replace(/",?$/, "");
+
+    // Collapse whitespace
+    t = t.replace(/\s+/g, " ").trim();
+
+    return t;
+  };
+
+  const arrRaw = Array.isArray(suggestions) ? suggestions : [];
+  const cleaned = arrRaw.map(cleanOne).filter(Boolean);
+
+  if (!cleaned.length) {
     const li = document.createElement("li");
-    li.textContent = String(s);
+    li.textContent = "No suggestions available.";
+    li.style.opacity = "0.75";
+    li.style.fontStyle = "italic";
+    aiSuggestionsEl.appendChild(li);
+    return;
+  }
+
+  cleaned.forEach((s) => {
+    const li = document.createElement("li");
+    li.textContent = s;
+    li.style.margin = "6px 0";
+    li.style.lineHeight = "1.35";
     aiSuggestionsEl.appendChild(li);
   });
 };
@@ -101,7 +183,8 @@ const requestAiSuggestions = async () => {
 
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(payload?.message || "AI request failed");
+    const msg = payload?.message || payload?.error || "AI request failed";
+    throw new Error(msg);
   }
 
   return {
@@ -357,15 +440,18 @@ if (aiSuggestBtn) {
     }
 
     aiSuggestBtn.disabled = true;
-    setAiStatus("Generating suggestions...");
+    setAiStatus("Generating suggestions…", false);
     renderAiSuggestions([]);
 
     try {
       const { suggestions, notes } = await requestAiSuggestions();
       renderAiSuggestions(suggestions);
-      setAiStatus(notes || "");
+      // Notes are for dev/debug; don't show them to users.
+      setAiStatus("", false);
     } catch (err) {
       setAiStatus(err?.message || "Unable to reach AI endpoint.", true);
+      // Also clear any stale suggestions UI if an error occurs
+      renderAiSuggestions([]);
     } finally {
       aiSuggestBtn.disabled = false;
     }
