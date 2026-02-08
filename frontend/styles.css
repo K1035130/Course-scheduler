@@ -429,6 +429,15 @@ button:hover {
   margin-top: 1%;
 }
 
+#pref-no-after-time {
+  margin-top: 10px;
+}
+
+#pref-no-after {
+  margin-left: 10px;
+  margin-top: 1%;
+}
+
 .prefs-days {
   display: flex;
   margin-top: 10px;

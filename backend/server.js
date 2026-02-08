@@ -245,6 +245,11 @@ const normalizePreferences = (prefs) => {
       ? raw.noClassBefore
       : null;
 
+  const noClassAfter =
+    typeof raw.noClassAfter === "string" && raw.noClassAfter.includes(":")
+      ? raw.noClassAfter
+      : null;
+
   const noClassOnDays = Array.isArray(raw.noClassOnDays)
     ? raw.noClassOnDays.map((d) => String(d || "").trim()).filter(Boolean)
     : [];
@@ -258,6 +263,7 @@ const normalizePreferences = (prefs) => {
 
   return {
     noClassBefore, // e.g. "10:00" or null
+    noClassAfter, // e.g. "18:00" or null
     noClassOnDays, // e.g. ["Fri"]
     maxContinuousHours, // e.g. 2 or null
   };
@@ -275,6 +281,13 @@ const optionPassesHardConstraints = (optionMeetings, preferences) => {
     const cutoff = toMinutes(preferences.noClassBefore);
     for (const m of optionMeetings || []) {
       if (m.start < cutoff) return false;
+    }
+  }
+
+  if (preferences.noClassAfter) {
+    const cutoff = toMinutes(preferences.noClassAfter);
+    for (const m of optionMeetings || []) {
+      if (m.end > cutoff) return false;
     }
   }
 
@@ -398,7 +411,7 @@ const scheduleCourses = (requests, preferencesInput) => {
       return { error: result.error };
     }
 
-    // Apply HARD constraints (noClassBefore / noClassOnDays)
+    // Apply HARD constraints (noClassBefore / noClassAfter / noClassOnDays)
     const filteredOptions = (result.combinations || []).filter((combo) =>
       optionPassesHardConstraints(combo.meetings || [], preferences)
     );
@@ -407,6 +420,8 @@ const scheduleCourses = (requests, preferencesInput) => {
       const reasons = [];
       if (preferences.noClassBefore)
         reasons.push(`noClassBefore=${preferences.noClassBefore}`);
+      if (preferences.noClassAfter)
+        reasons.push(`noClassAfter=${preferences.noClassAfter}`);
       if (preferences.noClassOnDays.length)
         reasons.push(`noClassOnDays=${preferences.noClassOnDays.join(",")}`);
       const suffix = reasons.length
@@ -516,6 +531,7 @@ const scheduleCourses = (requests, preferencesInput) => {
     warnings,
     appliedPreferences: {
       noClassBefore: preferences.noClassBefore,
+      noClassAfter: preferences.noClassAfter,
       noClassOnDays: preferences.noClassOnDays,
       maxContinuousHours: preferences.maxContinuousHours,
       softConstraintRelaxed: usedRelaxed,

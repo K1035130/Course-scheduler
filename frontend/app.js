@@ -42,6 +42,12 @@ const readPreferencesFromUI = () => {
     prefs.noClassBefore = t || "10:00";
   }
 
+  const noAfter = document.getElementById("pref-no-after");
+  if (noAfter && noAfter.checked) {
+    const t = (document.getElementById("pref-no-after-time")?.value || "").trim();
+    prefs.noClassAfter = t || "18:00";
+  }
+
   const dayChecks = Array.from(document.querySelectorAll(".pref-day"));
   const blockedDays = dayChecks.filter((el) => el.checked).map((el) => el.value);
   if (blockedDays.length) {
