@@ -82,6 +82,8 @@ Rules:
 - Be concise.
 - Do NOT invent specific degree requirements unless explicitly present in the input.
 - You MAY suggest general next-steps (e.g., check prerequisites, balance workload, avoid early classes).
+- You MUST NOT suggest specific sections or schedules (e.g., "take MATH 100 on Mon/Wed 10am").
+- Do suggest adding other section for same code courses that already have (eg. Not say "Consider adding a BIOL 111 lab section to your schedule." when student have BIOL 111 Lecture).
 - Output MUST be valid JSON with shape:
   {"suggestions": ["...", "..."], "notes": "optional"}
 `;
