@@ -214,7 +214,7 @@ const loadCourseSuggestions = async () => {
     ).sort();
     updateSuggestions(courses);
     ruleStatus.textContent =
-      "Course types and sections are validated by the backend.";
+      "Suggestions are created based on current choosen courses.";
   } catch (error) {
     updateSuggestions([]);
     ruleStatus.textContent = "Course list unavailable right now.";
