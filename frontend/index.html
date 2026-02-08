@@ -19,7 +19,7 @@
       <main class="layout layout-split">
         <aside class="sidebar">
           <section class="card summary-card">
-            <p class="hero-title">Weekly Snapshot</p>
+            <p class="hero-title"><h2>Weekly Snapshot</h2></p>
             <div class="hero-metrics">
               <div>
                 <span class="metric-label">Courses</span>
@@ -37,15 +37,17 @@
             </div>
 
             <div id="prefs" class="prefs">
-              <div class="prefs-title">Preferences</div>
-
-              <label class="pref-row">
+              <div class="prefs-header">
+                <div class="prefs-title"><h3>Preferences</h3></div>
+              </div>
+              <div class="prefs-inline">
+                <h4>No classes before 
                 <input type="checkbox" id="pref-no-before" />
-                <span>No classes before</span>
+                </h4>
                 <input type="time" id="pref-no-before-time" value="10:00" />
-              </label>
+              </div>
 
-              <div class="prefs-subtitle">No classes on</div>
+              <div class="prefs-subtitle"><h4>No classes on</h4></div>
               <div class="prefs-days">
                 <label class="pref-day-item"><input type="checkbox" class="pref-day" value="Mon" /> Mon</label>
                 <label class="pref-day-item"><input type="checkbox" class="pref-day" value="Tue" /> Tue</label>
@@ -53,13 +55,19 @@
                 <label class="pref-day-item"><input type="checkbox" class="pref-day" value="Thu" /> Thu</label>
                 <label class="pref-day-item"><input type="checkbox" class="pref-day" value="Fri" /> Fri</label>
               </div>
+              <div class="prefs-subtitle"><h4>Max continuous hours<h4>
+              </div>
+              <div class="prefs-inline">
+              <input type="number" id="pref-max-continuous" min="1" max="8" step="1" />
+              </div>
 
               <label class="pref-row">
-                <span>Max continuous hours</span>
-                <input type="number" id="pref-max-continuous" min="1" max="8" step="1" />
               </label>
 
-              <div class="prefs-hint">Changing these will re-generate the timetable (if you already added courses).</div>
+              <div class="prefs-hint">
+                <p>Changing these will re-generate the timetable</p>
+                <p>(if you already added courses)</p>
+              </div>
             </div>
             <p class="hero-note" id="rule-status">Course rules are loaded from the backend data.</p>
           </section>

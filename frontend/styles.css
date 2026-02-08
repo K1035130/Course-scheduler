@@ -381,32 +381,56 @@ button:hover {
   border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.prefs-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
 .prefs-title {
   font-weight: 700;
   font-size: 0.9rem;
-  margin-bottom: 10px;
+}
+
+.prefs-inline {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: 2%;
+  margin-top: 15px;
 }
 
 .prefs-subtitle {
   font-weight: 600;
   font-size: 0.8rem;
-  margin: 10px 0 6px;
+  margin-top: 25px;
 }
 
 .pref-row {
   display: flex;
-  align-items: center;
+  align-items: normal;
   gap: 10px;
-  margin: 8px 0;
+  margin: 8px 20px 20px;
   font-size: 0.85rem;
+  justify-content: flex-start;
+}
+
+.pref-row input[type="checkbox"] {
+  margin: 0;
 }
 
 #pref-no-before-time {
-  margin-left: auto;
+  margin-top: 10px;
+}
+
+#pref-no-before {
+  margin-left: 10px;
+  margin-top: 1%;
 }
 
 .prefs-days {
   display: flex;
+  margin-top: 10px;
   flex-wrap: wrap;
   gap: 8px 12px;
 }
