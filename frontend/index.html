@@ -13,7 +13,7 @@
           <p class="eyebrow">UBC Course Scheduler</p>
           <h1>Build a clean, conflict-free timetable</h1>
           <p class="subtitle">
-            Enter a course, pick its allowed type, and choose the day and time. We will instantly check for conflicts and keep a tidy weekly view.
+            Select a course code and we will auto-build the required sections from the rules and data files.
           </p>
         </div>
         <div class="hero-card">
@@ -28,7 +28,12 @@
               <span class="metric-value" id="metric-hours">0</span>
             </div>
           </div>
-          <p class="hero-note" id="rule-status">Course types are limited by the rules database.</p>
+          <div class="hero-list">
+            <p class="hero-list-title">Selected Courses</p>
+            <ul class="course-list" id="selected-courses"></ul>
+            <p class="hero-empty" id="selected-empty">No courses selected yet.</p>
+          </div>
+          <p class="hero-note" id="rule-status">Course rules are loaded from the backend data.</p>
         </div>
       </header>
 

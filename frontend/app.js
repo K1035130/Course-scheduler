@@ -9,6 +9,8 @@ const rulesHint = document.getElementById("rules-hint");
 const metricCount = document.getElementById("metric-count");
 const metricHours = document.getElementById("metric-hours");
 const suggestionList = document.getElementById("course-suggestions");
+const selectedCoursesList = document.getElementById("selected-courses");
+const selectedEmpty = document.getElementById("selected-empty");
 
 const dayLabels = {
   Mon: "Monday",
@@ -63,6 +65,7 @@ const loadCourseSuggestions = async () => {
 
 const render = () => {
   grid.innerHTML = "";
+  selectedCoursesList.innerHTML = "";
 
   const grouped = {};
   Object.keys(dayLabels).forEach((day) => {
@@ -128,6 +131,13 @@ const render = () => {
   metricCount.textContent = requests.length;
   metricHours.textContent = totalHours;
   emptyState.style.display = timetable.length ? "none" : "block";
+
+  requests.forEach((request) => {
+    const item = document.createElement("li");
+    item.textContent = request.course;
+    selectedCoursesList.appendChild(item);
+  });
+  selectedEmpty.style.display = requests.length ? "none" : "block";
 };
 
 const requestSchedule = async (nextRequests) => {
@@ -148,6 +158,11 @@ form.addEventListener("submit", async (event) => {
 
   if (!course) {
     showMessage("Please select a course code.");
+    return;
+  }
+
+  if (requests.some((request) => request.course === course)) {
+    showMessage("This course is already in your timetable.");
     return;
   }
 
