@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
   font-family: "Merriweather Sans", "Segoe UI", sans-serif;
-  background-color: #f1f2f6;
+  background-color: #f2f0ec;
   color: #111827;
 }
 
@@ -16,7 +16,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 48px 20px 64px;
-  background: radial-gradient(circle at top, #fef6e4 0%, #f1f2f6 40%, #eef1f8 100%);
+  background: radial-gradient(circle at top, #f6f2ee 0%, #f1f2f6 40%, #eef1f8 100%);
 }
 
 .app {
@@ -26,18 +26,17 @@ body {
   gap: 32px;
 }
 
-.hero {
+.page-header {
   display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .eyebrow {
   text-transform: uppercase;
   font-size: 0.8rem;
   letter-spacing: 0.16em;
-  color: #935c25;
+  color: #b45309;
   font-weight: 600;
 }
 
@@ -52,21 +51,16 @@ h1 {
   line-height: 1.6;
 }
 
-.hero-card {
-  background: linear-gradient(135deg, #1f2937, #111827);
-  color: #f9fafb;
-  padding: 20px 22px;
-  border-radius: 18px;
-  min-width: 240px;
-  box-shadow: 0 18px 40px rgba(17, 24, 39, 0.25);
-}
-
 .hero-title {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: rgba(249, 250, 251, 0.65);
+  color: #6b7280;
   margin-bottom: 16px;
+}
+
+.summary-card .hero-title {
+  color: #000000;
 }
 
 .hero-metrics {
@@ -79,7 +73,11 @@ h1 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba(249, 250, 251, 0.6);
+  color: #9ca3af;
+}
+
+.summary-card .metric-label {
+  color: #000000;
 }
 
 .metric-value {
@@ -89,11 +87,8 @@ h1 {
   display: block;
 }
 
-.hero-note {
-  margin-top: 16px;
-  font-size: 0.9rem;
-  color: rgba(249, 250, 251, 0.7);
-  line-height: 1.4;
+.summary-card .metric-value {
+  color: #000000;
 }
 
 .hero-list {
@@ -104,8 +99,12 @@ h1 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: rgba(249, 250, 251, 0.6);
+  color: #000000;
   margin-bottom: 10px;
+}
+
+.summary-card .hero-list-title {
+  color: #000000;
 }
 
 .course-list {
@@ -122,20 +121,47 @@ h1 {
   font-size: 0.9rem;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(249, 250, 251, 0.12);
-  color: #f9fafb;
+  background: #f3f4f6;
+  color: #111827;
   letter-spacing: 0.02em;
+}
+
+.summary-card .course-list li {
+  background: #e2e8f0;
+  color: #000000;
 }
 
 .hero-empty {
   font-size: 0.85rem;
-  color: rgba(249, 250, 251, 0.55);
+  color: #9ca3af;
+}
+
+.summary-card .hero-empty {
+  color: #000000;
+}
+
+.hero-note {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #000000;
+  line-height: 1.4;
+}
+
+.summary-card .hero-note {
+  color: #000000;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(280px, 360px) 1fr;
+  grid-template-columns: 1fr;
   gap: 24px;
+}
+
+.top-row {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(260px, 360px);
+  gap: 24px;
+  align-items: start;
 }
 
 .card {
@@ -144,6 +170,17 @@ h1 {
   padding: 24px;
   box-shadow: 0 24px 48px rgba(30, 41, 59, 0.08);
   border: 1px solid #eef0f6;
+}
+
+.card.summary-card {
+  background: linear-gradient(145deg, #fff7d6, #f6a36b);
+  border: 1px solid #f1c27d;
+  color: #000000;
+}
+
+.card.form-card {
+  background: linear-gradient(145deg, #fff7d6, #f6a36b);
+  border: 1px solid #f1c27d;
 }
 
 .section-title {
@@ -196,7 +233,7 @@ select {
 
 button {
   border: none;
-  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  background: linear-gradient(135deg, #d97706, #c2410c);
   color: #ffffff;
   padding: 12px 18px;
   border-radius: 999px;
@@ -208,7 +245,7 @@ button {
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(234, 88, 12, 0.25);
+  box-shadow: 0 12px 24px rgba(194, 65, 12, 0.25);
 }
 
 .helper {
@@ -226,6 +263,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  background: linear-gradient(180deg, #cccbd3 0%, #17298f 100%);
 }
 
 .schedule-header {
@@ -237,7 +275,7 @@ button:hover {
 
 .summary {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: #1a2725;
 }
 
 .schedule-grid {
@@ -247,13 +285,14 @@ button:hover {
 }
 
 .day-column {
-  background: #f8fafc;
+  background: #f3f4f9;
   border-radius: 16px;
   padding: 14px;
   min-height: 140px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  border: 1px solid #eceff5;
 }
 
 .day-title {
@@ -265,7 +304,7 @@ button:hover {
   background: #ffffff;
   border-radius: 12px;
   padding: 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e7e9f1;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -306,11 +345,7 @@ button:hover {
 }
 
 @media (max-width: 900px) {
-  .hero {
-    flex-direction: column;
-  }
-
-  .layout {
+  .top-row {
     grid-template-columns: 1fr;
   }
 }

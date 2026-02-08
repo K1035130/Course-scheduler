@@ -8,60 +8,61 @@
   </head>
   <body>
     <div class="app">
-      <header class="hero">
-        <div>
-          <p class="eyebrow">UBC Course Scheduler</p>
-          <h1>Build a clean, conflict-free timetable</h1>
-          <p class="subtitle">
-            Select a course code and we will auto-build the required sections from the rules and data files.
-          </p>
-        </div>
-        <div class="hero-card">
-          <p class="hero-title">Weekly Snapshot</p>
-          <div class="hero-metrics">
-            <div>
-              <span class="metric-label">Courses</span>
-              <span class="metric-value" id="metric-count">0</span>
-            </div>
-            <div>
-              <span class="metric-label">Total Hours</span>
-              <span class="metric-value" id="metric-hours">0</span>
-            </div>
-          </div>
-          <div class="hero-list">
-            <p class="hero-list-title">Selected Courses</p>
-            <ul class="course-list" id="selected-courses"></ul>
-            <p class="hero-empty" id="selected-empty">No courses selected yet.</p>
-          </div>
-          <p class="hero-note" id="rule-status">Course rules are loaded from the backend data.</p>
-        </div>
+      <header class="page-header">
+        <p class="eyebrow">UBC Course Scheduler</p>
+        <h1>Build a clean, conflict-free timetable</h1>
+        <p class="subtitle">
+          Select a course code and we will auto-build the required sections from the rules and data files.
+        </p>
       </header>
 
       <main class="layout">
-        <section class="card form-card">
-          <div class="section-title">
-            <h2>Request a Course</h2>
-            <span class="tag">Step 01</span>
-          </div>
-          <form id="course-form">
-            <label>
-              Course Code
-              <input
-                type="text"
-                id="course-name"
-                placeholder="e.g. CPSC 210"
-                list="course-suggestions"
-                autocomplete="off"
-                required
-              />
-              <datalist id="course-suggestions"></datalist>
-            </label>
-            <span class="hint" id="rules-hint">Pick a course code; we will auto-build LEC/LAB/TUT from the rules.</span>
+        <div class="top-row">
+          <section class="card form-card">
+            <div class="section-title">
+              <h2>Request a Course</h2>
+              <span class="tag">Step 01</span>
+            </div>
+            <form id="course-form">
+              <label>
+                Course Code
+                <input
+                  type="text"
+                  id="course-name"
+                  placeholder="e.g. CPSC 210"
+                  list="course-suggestions"
+                  autocomplete="off"
+                  required
+                />
+                <datalist id="course-suggestions"></datalist>
+              </label>
+              <span class="hint" id="rules-hint">Pick a course code; we will auto-build LEC/LAB/TUT from the rules.</span>
 
-            <button type="submit">Add to Timetable</button>
-            <p class="helper" id="form-message" aria-live="polite"></p>
-          </form>
-        </section>
+              <button type="submit">Add to Timetable</button>
+              <p class="helper" id="form-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="card summary-card">
+            <p class="hero-title">Weekly Snapshot</p>
+            <div class="hero-metrics">
+              <div>
+                <span class="metric-label">Courses</span>
+                <span class="metric-value" id="metric-count">0</span>
+              </div>
+              <div>
+                <span class="metric-label">Total Hours</span>
+                <span class="metric-value" id="metric-hours">0</span>
+              </div>
+            </div>
+            <div class="hero-list">
+              <p class="hero-list-title">Selected Courses</p>
+              <ul class="course-list" id="selected-courses"></ul>
+              <p class="hero-empty" id="selected-empty">No courses selected yet.</p>
+            </div>
+            <p class="hero-note" id="rule-status">Course rules are loaded from the backend data.</p>
+          </section>
+        </div>
 
         <section class="card schedule-card">
           <div class="schedule-header">
