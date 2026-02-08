@@ -13,20 +13,6 @@ let sectionsByCourse = {};
 
 const COURSE_RULES_COLLECTION =
   process.env.COURSE_RULES_COLLECTION;
-// Fallback collection probe (disabled by request)
-// const COURSE_RULES_COLLECTIONS = (
-//   process.env.COURSE_RULES_COLLECTIONS ||
-//   [
-//     "CorsesRules",
-//     "CourseRules",
-//     "CoursesRules",
-//     "CouseRules",
-//     "CourseRule",
-//   ].join(",")
-// )
-//   .split(",")
-//   .map((s) => s.trim())
-//   .filter(Boolean);
 const SECTIONS_COLLECTION = process.env.SECTIONS_COLLECTION || "Sections";
 
 const getCourseList = () => {
