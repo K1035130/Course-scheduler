@@ -25,6 +25,8 @@ const dayLabels = {
 let requests = [];
 let timetable = [];
 
+const normalizeCourse = (value) => String(value || "").trim().toUpperCase();
+
 const toMinutes = (value) => {
   const [hours, minutes] = value.split(":").map(Number);
   return hours * 60 + minutes;
@@ -134,7 +136,17 @@ const render = () => {
 
   requests.forEach((request) => {
     const item = document.createElement("li");
-    item.textContent = request.course;
+
+    const label = document.createElement("span");
+    label.textContent = request.course;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = "Remove";
+    btn.addEventListener("click", () => removeCourse(request.course));
+
+    item.appendChild(label);
+    item.appendChild(btn);
     selectedCoursesList.appendChild(item);
   });
   selectedEmpty.style.display = requests.length ? "none" : "block";
@@ -152,16 +164,37 @@ const requestSchedule = async (nextRequests) => {
   return response.json();
 };
 
+const removeCourse = async (courseToRemove) => {
+  const target = normalizeCourse(courseToRemove);
+  const nextRequests = requests.filter(
+    (request) => normalizeCourse(request.course) !== target
+  );
+
+  try {
+    const result = await requestSchedule(nextRequests);
+    if (result.status !== "ok") {
+      showMessage(result.message || "Unable to update timetable.");
+      return;
+    }
+    requests = nextRequests;
+    timetable = result.timetable || [];
+    showMessage("Course removed.", false);
+    render();
+  } catch (error) {
+    showMessage("Unable to reach the backend.");
+  }
+};
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const course = nameInput.value.trim();
+  const course = normalizeCourse(nameInput.value);
 
   if (!course) {
     showMessage("Please select a course code.");
     return;
   }
 
-  if (requests.some((request) => request.course === course)) {
+  if (requests.some((request) => normalizeCourse(request.course) === course)) {
     showMessage("This course is already in your timetable.");
     return;
   }

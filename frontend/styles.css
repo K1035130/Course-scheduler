@@ -124,6 +124,16 @@ h1 {
   background: #f3f4f6;
   color: #111827;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.course-list li button {
+  margin-left: 12px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
 }
 
 .summary-card .course-list li {
