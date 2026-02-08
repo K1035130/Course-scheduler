@@ -16,7 +16,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 48px 20px 64px;
-  background: radial-gradient(circle at top, #f6f2ee 0%, #f1f2f6 40%, #eef1f8 100%);
+  background: radial-gradient(circle at top, #f6f2ee 0%, #b8f1c0 40%, #1b7132 100%);
 }
 
 .app {
